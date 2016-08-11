@@ -1,0 +1,6 @@
+<launch>
+  <!-- This launches the Gazebo empty world, CHRIS Create model, and fake localization -->
+  <include file="$(find chris_create_bringup)/launch/gazebo_empty_world.launch"/>
+  <include file="$(find chris_create_bringup)/launch/fake_localization.launch"/>
+</launch>
+

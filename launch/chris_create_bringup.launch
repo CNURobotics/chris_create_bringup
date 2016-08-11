@@ -1,0 +1,13 @@
+<launch>
+
+  <!-- Robot launch file -->
+  <include file="$(find chris_create_bringup)/launch/chris_create_node.launch" />
+
+  <!-- LIDAR interface -->
+  <include file="$(find chris_create_bringup)/launch/chris_hokuyo_bringup.launch" />
+
+  <!-- Stereo camera setup -->
+  <include file="$(find chris_create_bringup)/launch/chris_camera_bringup.launch" />
+
+</launch>
+

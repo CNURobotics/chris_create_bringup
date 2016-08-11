@@ -1,0 +1,10 @@
+<launch>
+
+  <!-- LIDAR interface -->
+  <node name="hokuyo_node" pkg="urg_node" type="urg_node" >
+     <param name="frame_id" value="hokuyo_laser" />
+     <remap from="scan" to="/hokuyo_node/scan" />
+  </node>
+
+</launch>
+

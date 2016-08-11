@@ -1,0 +1,11 @@
+<launch>
+
+  <node name="stereo_view" pkg="image_view" type="stereo_view" respawn="false" output="screen">
+    <remap from="stereo" to="stereo" />
+    <remap from="image"  to="image_rect_color"/>
+    <param name="autosize" value="true" />
+    <param name="approximate_sync" value="true" />
+  </node>
+
+</launch>
+

@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<robot name="camera" xmlns:xacro="http://www.ros.org/wiki/xacro">
+ <xacro:macro name="usb_camera" params="camera_name camera_optical_frame camera_radius camera_length mount_radius mount_length camera_ns baseline">
+
+  <!-- Constants for robot dimensions -->
+  <xacro:property name="PI"     value="3.1415926535897931"/>
+  <xacro:property name="mass"   value="0.05" /> 
+
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find chris_create_bringup)/urdf/common_properties.urdf.xacro" />
+
+  <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+  <xacro:include filename="$(find chris_create_bringup)/urdf/usb_camera_gazebo.urdf.xacro" />
+
+
+
+  <!-- Camera -->
+  <link name="${camera_name}_camera_link">
+    <visual>
+      <geometry>
+        <sphere radius="${camera_radius*0.1}" />
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <material name="black">
+        <color rgba="0.05 0.05 0.05 1"/>
+      </material>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+  <!-- Camera Body -->
+  <link name="${camera_name}_camera_body">
+    <collision name="${camera_name}_body_collision">
+      <geometry>
+       <cylinder radius="${camera_radius}" length="${camera_length}"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 ${PI/2} 0"/>
+    </collision>
+
+    <visual>
+      <geometry>
+         <cylinder radius="${camera_radius}" length="${camera_length}"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 ${PI/2} 0"/>
+      <material name="grey">
+         <color rgba=".7 .7 .7 1"/>
+      </material>
+    </visual>
+
+    <inertial>
+      <mass value="${mass}"/>
+      <inertia
+      ixx="${mass / 12.0 * (camera_radius*camera_radius)}" ixy="0.0" ixz="0.0"
+      iyy="${mass / 12.0 * (camera_radius*camera_radius)}"  iyz="0.0"
+      izz="${mass / 12.0 * (camera_radius*camera_radius)}"/>
+    </inertial>
+  </link>
+
+  <!-- Camera Mount -->
+  <link name="${camera_name}_camera_mount">
+    <collision name="${camera_name}_mount_collision">
+      <geometry>
+         <cylinder radius="${mount_radius}" length="${mount_length}"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </collision>
+
+    <visual>
+      <geometry>
+         <cylinder radius="${mount_radius}" length="${mount_length}"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <material name="grey">
+         <color rgba=".7 .7 .7 1"/>
+      </material>
+    </visual>
+      <inertial>
+        <mass value="${mass}"/>
+      <inertia
+      ixx="${mass / 12.0 * (mount_length*mount_length)}" ixy="0.0" ixz="0.0"
+      iyy="${mass / 12.0 * (mount_length*mount_length)}"  iyz="0.0"
+      izz="${mass / 12.0 * (mount_radius*mount_radius)}"/>
+    </inertial>
+  </link>
+
+
+ </xacro:macro>
+</robot>

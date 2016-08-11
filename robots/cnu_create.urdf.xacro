@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<robot name="cnu_create" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!--  Library -->
+  <xacro:include filename="$(find chris_create_model)/urdf/common_properties.urdf.xacro"/>
+  <xacro:include filename="$(find chris_create_model)/urdf/create.urdf.xacro"/>
+  <xacro:include filename="$(find chris_create_bringup)/urdf/hokuyo_urg04.urdf.xacro"/>
+  <xacro:include filename="$(find chris_create_bringup)/urdf/usb_camera.urdf.xacro"/>
+
+  <create/>
+
+  <joint name="hokuyo_base_joint" type="fixed">
+    <axis xyz="0 0 1" />
+    <origin xyz="-0.01 0.0 0.1" rpy="0 0 0"/>
+    <parent link="base_footprint"/>
+    <child link="hokuyo_base_link"/>
+  </joint>
+
+  <xacro:hokuyo_urg04 lidar_name="hokuyo"/>
+
+  <!-- camera mount base -->
+  <joint name="left_camera_mount_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="left_camera_mount"/>
+    <origin xyz="-0.070 0.038 0.11" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- camera mount center -->
+  <joint name="left_camera_base_joint" type="fixed">
+    <parent link="left_camera_mount"/>
+    <child link="left_camera_body"/>
+    <origin xyz=" 0.0 0.0 0.0308" rpy="0 ${M_PI/72.0} 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- camera optical center -->
+  <joint name="left_camera_joint" type="fixed">
+    <parent link="left_camera_body"/>
+    <child  link="left_camera_link"/>
+    <origin xyz="0.028 0 0 " rpy="-${M_PI/2.0} 0 -${M_PI/2.0}"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+
+  <xacro:usb_camera camera_ns="stereo" camera_name="left" camera_optical_frame="left_camera_link" camera_radius="0.0159" camera_length="0.0572" mount_radius="0.019" mount_length="0.0502" baseline="0.0" />
+
+  <!-- camera mount base -->
+  <joint name="right_camera_mount_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="right_camera_mount"/>
+    <origin xyz="-0.070 -0.038 0.11" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- camera mount center -->
+  <joint name="right_camera_base_joint" type="fixed">
+    <parent link="right_camera_mount"/>
+    <child link="right_camera_body"/>
+    <origin xyz=" 0.0 0.0 0.0308" rpy="0 ${M_PI/72.0} 0 "/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <!-- camera optical center -->
+  <joint name="right_camera_joint" type="fixed">
+    <parent link="right_camera_body"/>
+    <child  link="right_camera_link"/>
+    <origin xyz="0.028 0 0 " rpy="-${M_PI/2.0} 0 -${M_PI/2.0}"/>
+    <dynamics damping="0.7"/>
+  </joint>
+
+
+  <xacro:usb_camera camera_ns="stereo" camera_name="right" camera_optical_frame="left_camera_link" camera_radius="0.0159" camera_length="0.0572" mount_radius="0.019" mount_length="0.0502" baseline="0.1524"/>
+
+</robot>

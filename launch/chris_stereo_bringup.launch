@@ -1,0 +1,8 @@
+<launch>
+
+  <node name="stereo_image_proc" pkg="stereo_image_proc" type="stereo_image_proc" ns="stereo" respawn="false" output="screen">
+    <param name="approximate_sync" value="true"/>
+  </node>
+
+</launch>
+

@@ -1,0 +1,13 @@
+<launch>
+    <arg name="base_frame_id"     default="base_footprint"/>
+    <arg name="ground_truth"      default="/create_node/ground_truth"/>
+
+    <node pkg="fake_localization" type="fake_localization" name="amcl">
+      <remap from="base_pose_ground_truth" to="$(arg ground_truth)" />
+      <param name="base_frame_id"          value="$(arg base_frame_id)" />
+    </node>
+
+    <!-- For now, simulation has world and map frames the same and odometry are the same for simulation, so publish a static transform -->
+    <node pkg="tf" type="static_transform_publisher" name="dummy_localization" args="0.0 0.0 0 0 0 0 1 world map 100" />
+
+</launch>
